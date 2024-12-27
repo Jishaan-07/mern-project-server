@@ -57,4 +57,33 @@ exports.loginController = async (req, res) => {
 
 }
 
-// profile updation
+// Update user profile
+exports.updateProfileController = async (req, res) => {
+    const { username, phoneno } = req.body;  
+    const userId = req.user.id;  
+  
+    // Validation: Check if username and phoneno are provided
+    if (!username || !phoneno) {
+      return res.status(400).json({ error: 'Username and Phone Number are required!' });
+    }
+  
+    try {
+      // Find the user by ID and update the username and phone number
+      const updatedUser = await users.findByIdAndUpdate(
+        userId,
+        { username, phoneno },
+        { new: true } // Return the updated user
+      );
+  
+      if (!updatedUser) {
+        return res.status(404).json({ error: 'User not found!' });
+      }
+  
+      // Return the updated user information
+      res.status(200).json({ message: 'Profile updated successfully', user: updatedUser });
+      
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'An error occurred while updating the profile' });
+    }
+  };

@@ -84,7 +84,7 @@ exports.getEventByIdController = async (req, res) => {
     }
 };
 
-// delete eventByAdmin
+ 
 // delete eventByAdmin
 exports.deleteEventByAdminController = async (req, res) => {
     console.log("Inside deleteEventByAdminController");
@@ -93,6 +93,7 @@ exports.deleteEventByAdminController = async (req, res) => {
    try {
     const event = await events.findByIdAndDelete(id);
     if (!event) {
+         
         return res.status(404).json({ error: "Event Not Found" });
     }
     return res.status(200).json({ message: `${event.eventName} deleted successfully` });

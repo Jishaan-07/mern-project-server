@@ -3,8 +3,7 @@ const bookings = require('../models/bookingModel');
 exports.addBookingController = async (req, res) => {
   const { userId, eventId, eventName, eventImage, status,description, date, price, location } = req.body;
 
-  // Ensure all required fields are present
-  if (!userId || !eventId || !eventName || !eventImage || !status || !description|| !date || !price || !location) {
+   if (!userId || !eventId || !eventName || !eventImage || !status || !description|| !date || !price || !location) {
       return res.status(400).json({ error: 'All fields are required!' });
   }
 

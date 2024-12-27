@@ -42,4 +42,8 @@ router.get('/booking-list', adminBookingListController.getAllAdminBookingsContro
 
 // delete card
 router.delete('/events-list/:id', eventController.deleteEventByAdminController);
+
+// Route to update profile
+router.put('/my-profile',  userController.updateProfileController);  // PUT request to update profile
+ 
 module.exports = router;
