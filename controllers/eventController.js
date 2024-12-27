@@ -65,6 +65,9 @@ exports.getAllEventsController = async (req, res) => {
     
    };
 
+
+
+
 // get event by id
 exports.getEventByIdController = async (req, res) => {
     console.log("Inside getEventByIdController");
@@ -80,3 +83,22 @@ exports.getEventByIdController = async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 };
+
+// delete eventByAdmin
+// delete eventByAdmin
+exports.deleteEventByAdminController = async (req, res) => {
+    console.log("Inside deleteEventByAdminController");
+    const { id } = req.params; // Get event ID from URL params
+    
+   try {
+    const event = await events.findByIdAndDelete(id);
+    if (!event) {
+        return res.status(404).json({ error: "Event Not Found" });
+    }
+    return res.status(200).json({ message: `${event.eventName} deleted successfully` });
+   } catch (err) {
+       console.error(err);
+       return res.status(500).json({ error: "An error occurred in backend" });
+   }
+};
+
