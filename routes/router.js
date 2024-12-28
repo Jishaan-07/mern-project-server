@@ -3,7 +3,8 @@ const userController = require('../controllers/userController');
 const eventController = require('../controllers/eventController');
 const bookingController = require('../controllers/bookingController'); // Import bookingController
 const multerMiddleware = require('../middlewares/multerMiddleware');
-const adminBookingListController = require('../controllers/adminBookingListController')
+const adminBookingListController = require('../controllers/adminBookingListController');
+const authenticate = require('../middlewares/jwtMiddlewares');
 const router = new express.Router();
 
 // register - post
@@ -43,7 +44,6 @@ router.get('/booking-list', adminBookingListController.getAllAdminBookingsContro
 // delete card
 router.delete('/events-list/:id', eventController.deleteEventByAdminController);
 
-// Route to update profile
-router.put('/my-profile',  userController.updateProfileController);  // PUT request to update profile
- 
+router.put('/user/:id', authenticate, userController.updateProfileController);
+
 module.exports = router;

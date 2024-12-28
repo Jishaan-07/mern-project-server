@@ -1,27 +1,24 @@
 const jwt = require('jsonwebtoken');
 
- 
-const verifyJwtForBooking = (req, res, next) => {
-  const authHeader = req.header('Authorization');  
-
-  if (!authHeader) {
-    return res.status(401).json({ message: 'Access denied. No token provided.' });
-  }
-
-   const token = authHeader.split(' ')[1];  
+const authenticate = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1]; // Correctly extract token
   if (!token) {
-    return res.status(401).json({ message: 'Access denied. Invalid token format.' });
+      console.log("No token Provided");
+      return res.status(401).json({ error: 'Access Denied: No Token Provided' });
   }
 
   try {
-    const secretKey = process.env.JWTPASSWORD;  
-    const decoded = jwt.verify(token, secretKey);  n
-
-    req.userId = decoded.id; 
-    next();  
+      const verified = jwt.verify(token, process.env.JWTPASSWORD);
+      console.log('Decoded Token:', verified); // Log the token payload
+      req.user = verified.userId; // Set userId in the request object
+      next();
   } catch (err) {
-    res.status(403).json({ message: 'Invalid or expired token.' });
+      console.error('Invalid Token:', err);
+      res.status(400).json({ error: 'Invalid Token' });
   }
 };
 
-module.exports = verifyJwtForBooking;
+
+
+module.exports = authenticate;
